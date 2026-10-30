@@ -1,1 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SummitOS | Business Management</title>
 
+<style>
+:root {
+  --bg: #f4f6fa;
+  --card: #ffffff;
+  --text: #172238;
+  --muted: #778197;
+  --blue: #365cf5;
+  --border: #e8ebf2;
+  --green: #16845b;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 17px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.brand {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+}
+
+.brand span { color: var(--blue); }
+
+.badge {
+  font-size: 12px;
+  background: #eef1ff;
+  color: var(--blue);
+  padding: 7px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 215px minmax(0, 1fr);
+  min-height: calc(100vh - 65px);
+}
+
+nav {
+  padding: 25px 14px;
+  background: white;
+  border-right: 1px solid var(--border);
+}
+
+.nav-label {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  margin: 10px 12px 14px;
+}
+
+.nav-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  padding: 13px 12px;
+  margin-bottom: 5px;
+  border-radius: 9px;
+  background: transparent;
+  color: #5d687e;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nav-btn.active, .nav-btn:hover {
+  background: #eef1ff;
+  color: var(--blue);
+}
+
+main {
+  padding: 30px;
+  min-width: 0;
+  max-width: 1450px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+h1 {
+  font-size: 27px;
+  margin: 0 0 7px;
+  letter-spacing: -0.8px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+button { font-family: inherit; }
+
+.primary {
+  background: var(--blue);
+  color: white;
+  border: 0;
+  border-radius: 9px;
+  padding: 12px 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.secondary {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 13px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 21px;
+  min-width: 0;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.stat-value {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  overflow-wrap: anywhere;
+}
+
+.stat-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+.green { color: var(--green); }
+
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th {
+  text-align: left;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 12px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+td {
+  padding: 15px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+tr:last-child td { border-bottom: 0; }
+
+.status {
+  display: inline-block;
+  background: #e6f7ee;
+  color: #16845b;
+  padding: 5px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.progress {
+  height: 7px;
+  background: #edf0f6;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.progress div {
+  height: 100%;
+  background: var(--blue);
+  border-radius: 10px;
+}
+
+.project {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.project:last-child { border-bottom: 0; }
+
+.project-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.project-meta {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.section { display: none; }
+.section.active { display: block; }
+
+.empty {
+  padding: 32px 10px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dfe4ed;
+  border-radius: 8px;
+  font: inherit;
+  background: white;
+  margin-bottom: 15px;
+}
+
+.notice {
+  background: #fff7e5;
+  color: #77571a;
+  padding: 13px;
+  border-radius: 9px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+footer {
+  color: var(--muted);
+  text-align: center;
+  font-size: 12px;
+  padding: 28px 10px;
+}
+
+@media (max-width: 950px) {
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .columns { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  header { padding: 15px; }
+  .layout { display: block; }
+  nav {
+    display: flex;
+    overflow-x: auto;
+    gap: 5px;
+    padding: 9px;
+    position: sticky;
+    top: 59px;
+    z-index: 4;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-label { display: none; }
+  .nav-btn {
+    width: auto;
+    flex-shrink: 0;
+    padding: 11px 12px;
+    margin: 0;
+    font-size: 12px;
+  }
+  main { padding: 20px 14px; }
+  h1 { font-size: 24px; }
+  .stats { gap: 10px; }
+  .card { padding: 15px; }
+  .stat-value { font-size: 21px; }
+  .form-row { grid-template-columns: 1fr; gap: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">Summit<span>OS</span></div>
+  <div class="badge">BUSINESS WORKSPACE</div>
+</header>
+
+<div class="layout">
+
+<nav>
+  <div class="nav-label">WORKSPACE</div>
+  <button class="nav-btn active" data-page="dashboard">▦ Dashboard</button>
+  <button class="nav-btn" data-page="finances">＄ Finances</button>
+  <button class="nav-btn" data-page="employees">♙ Employees</button>
+  <button class="nav-btn" data-page="projects">▤ Projects</button>
+  <button class="nav-btn" data-page="reports">▥ Reports</button>
+  <button class="nav-btn" data-page="settings">⚙ Settings</button>
+</nav>
+
+<main>
+
+<section class="section active" id="dashboard">
+  <div class="page-heading">
+    <div>
+      <h1>Good to see you.</h1>
+      <div class="subtitle">Here's an overview of your business.</div>
+    </div>
+    <button class="primary" onclick="showPage('finances')">+ Add transaction</button>
+  </div>
+
+  <div class="notice">
+    Preview mode: the numbers below are examples, not real financial records.
+  </div>
+
+  <div class="stats">
+    <div class="card">
+      <div class="stat-label">Total Revenue</div>
+      <div class="stat-value" id="revenue">$48,500</div>
+      <div class="stat-note">Example monthly income</div>
+    </div>
+    <div class="card">
+      <div class="stat-label">Total Expenses</div>
+      <div class="stat-value" id="expenses">$21,350</div>
+      <div class="stat-note">Example monthly costs</div>
+    </div>
+    <div class="card">
+      <div class="stat-label">Net Profit</div>
+      <div class="stat-value green" id="profit">$27,150</div>
+      <div class="stat-note">Revenue minus expenses</div>
+    </div>
+    <div class="card">
+      <div class="stat-label">Active Projects</div>
+      <div class="stat-value" id="projectCount">3</div>
+      <div class="stat-note">Example projects</div>
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="card">
+      <div class="card-heading">
+        <h2>Recent Transactions</h2>
+        <button class="secondary" onclick="showPage('finances')">View all</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Description</th><th>Category</th><th>Amount</th></tr></thead>
+          <tbody id="recentTransactions">
+            <tr><td>Client payment</td><td>Income</td><td class="green">+$8,500</td></tr>
+            <tr><td>Software</td><td>Operations</td><td>−$250</td></tr>
+            <tr><td>Office supplies</td><td>Supplies</td><td>−$180</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-heading">
+        <h2>Project Overview</h2>
+        <button class="secondary" onclick="showPage('projects')">View all</button>
+      </div>
+      <div id="projectOverview">
+        <div class="project">
+          <div class="project-top"><span>Website Redesign</span><span>75%</span></div>
+          <div class="project-meta">Design and development</div>
+          <div class="progress"><div style="width:75%"></div></div>
+        </div>
+        <div class="project">
+          <div class="project-top"><span>Marketing Campaign</span><span>45%</span></div>
+          <div class="project-meta">Marketing</div>
+          <div class="progress"><div style="width:45%"></div></div>
+        </div>
+        <div class="project">
+          <div class="project-top"><span>New Product</span><span>20%</span></div>
+          <div class="project-meta">Product development</div>
+          <div class="progress"><div style="width:20%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="finances">
+  <div class="page-heading">
+    <div>
+      <h1>Finances</h1>
+      <div class="subtitle">Track income and business expenses.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Add a transaction</h2>
+    <br>
+    <form id="transactionForm">
+      <div class="form-row">
+        <div><label for="description">Description</label><input id="description" required placeholder="e.g. Client payment"></div>
+        <div><label for="amount">Amount ($)</label><input id="amount" type="number" min="0.01" step="0.01" required placeholder="0.00"></div>
+        <div><label for="type">Transaction type</label><select id="type"><option value="income">Income</option><option value="expense">Expense</option></select></div>
+        <div><label for="category">Category</label><input id="category" required placeholder="e.g. Software"></div>
+      </div>
+      <button class="primary" type="submit">Add transaction</button>
+    </form>
+  </div>
+
+  <br>
+  <div class="card">
+    <div class="card-heading"><h2>Transactions</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Description</th><th>Category</th><th>Type</th><th>Amount</th></tr></thead>
+        <tbody id="allTransactions"><tr><td colspan="4">No transactions added yet.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="employees">
+  <div class="page-heading">
+    <div>
+      <h1>Employees</h1>
+      <div class="subtitle">Manage your team and payroll estimates.</div>
+    </div>
+  </div>
+
+  <div class="notice">This preview does not process payroll or calculate taxes. Employee records and salaries are not yet saved to your secure database.</div>
+
+  <div class="card">
+    <h2>Add an employee</h2><br>
+    <form id="employeeForm">
+      <div class="form-row">
+        <div><label for="employeeName">Employee name</label><input id="employeeName" required placeholder="Full name"></div>
+        <div><label for="employeeRole">Job title</label><input id="employeeRole" required placeholder="e.g. Designer"></div>
+        <div><label for="employeeSalary">Annual salary ($)</label><input id="employeeSalary" type="number" min="0" step="0.01" required placeholder="50000"></div>
+      </div>
+      <button class="primary" type="submit">Add employee</button>
+    </form>
+  </div>
+
+  <br>
+  <div class="card">
+    <h2>Team members</h2><br>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Role</th><th>Annual salary</th></tr></thead>
+        <tbody id="employeeList"><tr><td colspan="3">No employees added yet.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="projects">
+  <div class="page-heading">
+    <div>
+      <h1>Projects</h1>
+      <div class="subtitle">Organize projects and monitor progress.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Create a project</h2><br>
+    <form id="projectForm">
+      <div class="form-row">
+        <div><label for="projectName">Project name</label><input id="projectName" required placeholder="Project name"></div>
+        <div><label for="projectBudget">Budget ($)</label><input id="projectBudget" type="number" min="0" step="0.01" required placeholder="5000"></div>
+        <div><label for="projectProgress">Progress (%)</label><input id="projectProgress" type="number" min="0" max="100" value="0" required></div>
+      </div>
+      <button class="primary" type="submit">Create project</button>
+    </form>
+  </div>
+
+  <br>
+  <div class="card">
+    <h2>Your projects</h2><br>
+    <div id="allProjects" class="empty">No projects added yet.</div>
+  </div>
+</section>
+
+<section class="section" id="reports">
+  <div class="page-heading">
+    <div>
+      <h1>Reports</h1>
+      <div class="subtitle">Review your financial overview.</div>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="card"><div class="stat-label">Recorded Income</div><div class="stat-value green" id="reportIncome">$0.00</div></div>
+    <div class="card"><div class="stat-label">Recorded Expenses</div><div class="stat-value" id="reportExpenses">$0.00</div></div>
+    <div class="card"><div class="stat-label">Recorded Profit</div><div class="stat-value" id="reportProfit">$0.00</div></div>
+    <div class="card"><div class="stat-label">Team Members</div><div class="stat-value" id="reportEmployees">0</div></div>
+  </div>
+  <div class="card">
+    <h2>Financial summary</h2><br>
+    <p class="subtitle">This report summarizes transactions entered during this browser session. It is not yet a saved accounting report.</p>
+    <button class="primary" onclick="window.print()">Print report</button>
+  </div>
+</section>
+
+<section class="section" id="settings">
+  <div class="page-heading">
+    <div>
+      <h1>Settings</h1>
+      <div class="subtitle">Configure your business workspace.</div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Business information</h2><br>
+    <form id="settingsForm">
+      <label for="businessName">Business name</label>
+      <input id="businessName" placeholder="Your business name" value="My Business">
+      <label for="ownerName">Owner or administrator</label>
+      <input id="ownerName" placeholder="Your name">
+      <button class="primary" type="submit">Update workspace</button>
+    </form>
+    <p class="subtitle" id="settingsMessage"></p>
+  </div>
+  <br>
+  <div class="card">
+    <h2>About SummitOS</h2><br>
+    <p class="subtitle">A business management platform for finances, employees, projects, and reporting.</p>
+    <p class="subtitle">Version 0.1 · Early prototype</p>
+  </div>
+</section>
+
+<footer>SummitOS · Business management, made simpler.</footer>
+
+</main>
+</div>
+
+<script>
+const transactions = [];
+const employees = [];
+const projects = [];
+
+function showPage(page) {
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+
+  const section = document.getElementById(page);
+  const button = document.querySelector('[data-page="' + page + '"]');
+
+  if (section) section.classList.add("active");
+  if (button) button.classList.add("active");
+
+  if (page === "reports") updateReports();
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.querySelectorAll(".nav-btn").forEach(button => {
+  button.addEventListener("click", () => showPage(button.dataset.page));
+});
+
+function money(value) {
+  return Number(value).toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD"
+  });
+}
+
+function safe(value) {
+  const element = document.createElement("span");
+  element.textContent = value;
+  return element.innerHTML;
+}
+
+function updateTransactions() {
+  const body = document.getElementById("allTransactions");
+  const recent = document.getElementById("recentTransactions");
+
+  body.innerHTML = "";
+  recent.innerHTML = "";
+
+  if (transactions.length === 0) {
+    body.innerHTML = '<tr><td colspan="4">No transactions added yet.</td></tr>';
+    recent.innerHTML = '<tr><td colspan="3">No transactions yet.</td></tr>';
+  }
+
+  transactions.forEach((t, i) => {
+    const sign = t.type === "income" ? "+" : "−";
+    const color = t.type === "income" ? "green" : "";
+    body.innerHTML += `<tr>
+      <td>${safe(t.description)}</td>
+      <td>${safe(t.category)}</td>
+      <td>${t.type === "income" ? "Income" : "Expense"}</td>
+      <td class="${color}">${sign}${money(t.amount)}</td>
+    </tr>`;
+
+    if (i >= transactions.length - 3) {
+      recent.innerHTML += `<tr>
+        <td>${safe(t.description)}</td>
+        <td>${safe(t.category)}</td>
+        <td class="${color}">${sign}${money(t.amount)}</td>
+      </tr>`;
+    }
+  });
+
+  const income = transactions.filter(t => t.type === "income")
+    .reduce((sum, t) => sum + t.amount, 0);
+  const expenses = transactions.filter(t => t.type === "expense")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  document.getElementById("revenue").textContent = money(income);
+  document.getElementById("expenses").textContent = money(expenses);
+  document.getElementById("profit").textContent = money(income - expenses);
+  updateReports();
+}
+
+document.getElementById("transactionForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  transactions.push({
+    description: document.getElementById("description").value.trim(),
+    amount: Number(document.getElementById("amount").value),
+    type: document.getElementById("type").value,
+    category: document.getElementById("category").value.trim()
+  });
+
+  e.target.reset();
+  updateTransactions();
+});
+
+document.getElementById("employeeForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  employees.push({
+    name: document.getElementById("employeeName").value.trim(),
+    role: document.getElementById("employeeRole").value.trim(),
+    salary: Number(document.getElementById("employeeSalary").value)
+  });
+
+  const body = document.getElementById("employeeList");
+  body.innerHTML = "";
+
+  employees.forEach(employee => {
+    body.innerHTML += `<tr>
+      <td>${safe(employee.name)}</td>
+      <td>${safe(employee.role)}</td>
+      <td>${money(employee.salary)}</td>
+    </tr>`;
+  });
+
+  document.getElementById("reportEmployees").textContent = employees.length;
+  e.target.reset();
+});
+
+document.getElementById("projectForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  projects.push({
+    name: document.getElementById("projectName").value.trim(),
+    budget: Number(document.getElementById("projectBudget").value),
+    progress: Number(document.getElementById("projectProgress").value)
+  });
+
+  const container = document.getElementById("allProjects");
+  container.innerHTML = "";
+
+  projects.forEach(project => {
+    container.innerHTML += `<div class="project">
+      <div class="project-top">
+        <span>${safe(project.name)}</span>
+        <span>${project.progress}%</span>
+      </div>
+      <div class="project-meta">Budget: ${money(project.budget)}</div>
+      <div class="progress"><div style="width:${project.progress}%"></div></div>
+    </div>`;
+  });
+
+  document.getElementById("projectCount").textContent = projects.length;
+  e.target.reset();
+});
+
+function updateReports() {
+  const income = transactions.filter(t => t.type === "income")
+    .reduce((sum, t) => sum + t.amount, 0);
+  const expenses = transactions.filter(t => t.type === "expense")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  document.getElementById("reportIncome").textContent = money(income);
+  document.getElementById("reportExpenses").textContent = money(expenses);
+  document.getElementById("reportProfit").textContent = money(income - expenses);
+  document.getElementById("reportEmployees").textContent = employees.length;
+}
+
+document.getElementById("settingsForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const name = document.getElementById("businessName").value.trim();
+  document.getElementById("settingsMessage").textContent =
+    "Workspace name updated for this preview: " + (name || "My Business");
+});
+</script>
+
+</body>
+</html>
